@@ -158,7 +158,7 @@ paths:
                 properties:
                   error:
                     type: string
-```
+
 
 # Transaction
   /transactions:
