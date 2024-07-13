@@ -8,10 +8,8 @@ info:
 servers:
   - url: http://api.domain.com/v1
 tags:
-  - name: Admin
-    description: Endpoints to manage users and admin-related tasks
 
-  - name: Auth
+  - name: Authentication
     description: Manage authentication and authorization.
   
   - name: Users
@@ -43,7 +41,7 @@ paths:
   /auth/register:
     post:
       summary: Register a new user
-      tags: [Auth]
+      tags: [Authentication]
       requestBody:
         required: true
         content:
@@ -95,7 +93,7 @@ paths:
   /auth/login:
     post:
       summary: Log in a user and return a JWT token
-      tags: [Auth]
+      tags: [Authentication]
       requestBody:
         required: true
         content:
@@ -138,7 +136,7 @@ paths:
 
   /auth/logout:
     post:
-      tags: [Auth]
+      tags: [Authentication]
       summary: Log out a user
       responses:
         '200':
