@@ -2,7 +2,7 @@
 
 #### **Users Table**
 
-- **Table Name**: `users`
+- **Table Name**: users
 - **Description**: Stores user information.
 - **Fields**:
   - `id`: `int` (Primary Key, Auto Increment)
@@ -18,7 +18,7 @@
 
 #### **Transactions Table**
 
-- **Table Name**: `transactions`
+- **Table Name**: transactions
 - **Description**: Stores transaction details.
 - **Fields**:
   - `id`: `int` (Primary Key, Auto Increment)
@@ -28,7 +28,7 @@
 
 #### **Organisations Table**
 
-- **Table Name**: `organisations`
+- **Table Name**: organisations
 - **Description**: Stores organisation details.
 - **Fields**:
   - `id`: `int` (Primary Key, Auto Increment)
@@ -39,17 +39,16 @@
 
 #### **User_Organisation Table**
 
-- **Table Name**: `user_organisation`
+- **Table Name**: user_organisation
 - **Description**: Maps users to organisations.
 - **Fields**:
   - `id`: `int` (Primary Key, Auto Increment)
   - `user_id`: `varchar` (Foreign Key referencing `users.unique_id`)
   - `organisation_id`: `int` (Foreign Key referencing `organisations.id`)
-  - **Unique Constraints**: `user_id`, `organisation_id`
 
 #### **Notifications Table**
 
-- **Table Name**: `notifications`
+- **Table Name**: notifications
 - **Description**: Stores user notifications.
 - **Fields**:
   - `id`: `int` (Primary Key, Auto Increment)
@@ -60,7 +59,7 @@
 
 #### **Posts Table**
 
-- **Table Name**: `posts`
+- **Table Name**: posts
 - **Description**: Stores user posts.
 - **Fields**:
   - `id`: `int` (Primary Key, Auto Increment)
@@ -74,7 +73,7 @@
 
 #### **Messages Table**
 
-- **Table Name**: `messages`
+- **Table Name**: messages
 - **Description**: Stores user messages.
 - **Fields**:
   - `id`: `int` (Primary Key, Auto Increment)
@@ -86,7 +85,7 @@
 
 #### **Payments Table**
 
-- **Table Name**: `payments`
+- **Table Name**: payments
 - **Description**: Stores payment details.
 - **Fields**:
   - `id`: `int` (Primary Key, Auto Increment)
