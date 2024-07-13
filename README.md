@@ -98,7 +98,7 @@
 
 ---
 
-### API Documentation
+### API Design Documentation
 
 #### **Users API**
 
@@ -114,10 +114,10 @@
       "unique_id": "string",
       "first_name": "string",
       "last_name": "string",
-      "phone": "string",
+      "phone": "int",
       "email": "string",
       "password": "string",
-      "role": "boolean"
+      "role": "bool"
     }
     ```
   - **Response**:
@@ -128,9 +128,10 @@
         "unique_id": "string",
         "first_name": "string",
         "last_name": "string",
-        "phone": "string",
+        "phone": "int",
         "email": "string",
-        "role": "boolean",
+        "password": "string",
+        "role": "bool",
         "created_at": "datetime",
         "updated_at": "datetime"
       }
@@ -153,9 +154,10 @@
           "unique_id": "string",
           "first_name": "string",
           "last_name": "string",
-          "phone": "string",
+          "phone": "int",
           "email": "string",
-          "role": "boolean",
+          "password": "string",
+          "role": "bool",
           "created_at": "datetime",
           "updated_at": "datetime"
         }
@@ -174,9 +176,10 @@
         "unique_id": "string",
         "first_name": "string",
         "last_name": "string",
-        "phone": "string",
+        "phone": "int",
         "email": "string",
-        "role": "boolean",
+        "password": "string",
+        "role": "bool",
         "created_at": "datetime",
         "updated_at": "datetime"
       }
@@ -198,10 +201,10 @@
       "unique_id": "string",
       "first_name": "string",
       "last_name": "string",
-      "phone": "string",
+      "phone": "int",
       "email": "string",
       "password": "string",
-      "role": "boolean"
+      "role": "bool"
     }
     ```
   - **Response**:
@@ -212,9 +215,10 @@
         "unique_id": "string",
         "first_name": "string",
         "last_name": "string",
-        "phone": "string",
+        "phone": "int",
         "email": "string",
-        "role": "boolean",
+        "password": "string",
+        "role": "bool",
         "created_at": "datetime",
         "updated_at": "datetime"
       }
@@ -253,7 +257,26 @@
     ```json
     {
       "user_id": "string",
-      "payment_data": "json"
+      "payment_data": {
+        "id": "int",
+        "user_id": "string",
+        "user_data": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
+        "amount": "decimal",
+        "payment_method": "string",
+        "status": "string",
+        "created_at": "datetime"
+      }
     }
     ```
   - **Response**:
@@ -262,7 +285,26 @@
       {
         "id": "int",
         "user_id": "string",
-        "payment_data": "json",
+        "payment_data": {
+          "id": "int",
+          "user_id": "string",
+          "user_data": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
+          "amount": "decimal",
+          "payment_method": "string",
+          "status": "string",
+          "created_at": "datetime"
+        },
         "created_at": "datetime"
       }
       ```
@@ -282,7 +324,26 @@
         {
           "id": "int",
           "user_id": "string",
-          "payment_data": "json",
+          "payment_data": {
+            "id": "int",
+            "user_id": "string",
+            "user_data": {
+              "id": "int",
+              "unique_id": "string",
+              "first_name": "string",
+              "last_name": "string",
+              "phone": "int",
+              "email": "string",
+              "password": "string",
+              "role": "bool",
+              "created_at": "datetime",
+              "updated_at": "datetime"
+            },
+            "amount": "decimal",
+            "payment_method": "string",
+            "status": "string",
+            "created_at": "datetime"
+          },
           "created_at": "datetime"
         }
       ]
@@ -298,37 +359,26 @@
       {
         "id": "int",
         "user_id": "string",
-        "payment_data": "json",
-        "created_at": "datetime"
-      }
-      ```
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Transaction not found"
-      }
-      ```
-
-  ##### `PUT /transactions/{id}`
-  - **Description**: Update a transaction by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Request Body**:
-    ```json
-    {
-      "user_id": "string",
-      "payment_data": "json"
-    }
-    ```
-  - **Response**:
-   
-
- - **200 OK**:
-      ```json
-      {
-        "id": "int",
-        "user_id": "string",
-        "payment_data": "json",
+        "payment_data": {
+          "id": "int",
+          "user_id": "string",
+          "user_data": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
+          "amount": "decimal",
+          "payment_method": "string",
+          "status": "string",
+          "created_at": "datetime"
+        },
         "created_at": "datetime"
       }
       ```
@@ -394,7 +444,9 @@
       ```json
       [
         {
-          "id": "int",
+          "id
+
+": "int",
           "name": "string",
           "description": "string",
           "created_at": "datetime",
@@ -469,14 +521,14 @@
 
 ---
 
-#### **User_Organisation API**
+#### **User Organisation API**
 
 - **Endpoint**: `/user_organisations`
-- **Description**: Manage user-organisation relationships.
+- **Description**: Manage user organisations.
 - **Methods**:
 
   ##### `POST /user_organisations`
-  - **Description**: Create a new user-organisation relationship.
+  - **Description**: Create a new user organisation.
   - **Request Body**:
     ```json
     {
@@ -489,8 +541,25 @@
       ```json
       {
         "id": "int",
-        "user_id": "string",
-        "organisation_id": "int"
+        "user_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
+        "organisation_id": {
+          "id": "int",
+          "name": "string",
+          "description": "string",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        }
       }
       ```
     - **400 Bad Request**:
@@ -501,21 +570,38 @@
       ```
 
   ##### `GET /user_organisations`
-  - **Description**: Get a list of user-organisation relationships.
+  - **Description**: Get a list of user organisations.
   - **Response**:
     - **200 OK**:
       ```json
       [
         {
           "id": "int",
-          "user_id": "string",
-          "organisation_id": "int"
+          "user_id": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
+          "organisation_id": {
+            "id": "int",
+            "name": "string",
+            "description": "string",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          }
         }
       ]
       ```
 
   ##### `GET /user_organisations/{id}`
-  - **Description**: Get a user-organisation relationship by ID.
+  - **Description**: Get a user organisation by ID.
   - **Parameters**:
     - `id`: `int` (Path Parameter)
   - **Response**:
@@ -523,19 +609,36 @@
       ```json
       {
         "id": "int",
-        "user_id": "string",
-        "organisation_id": "int"
+        "user_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
+        "organisation_id": {
+          "id": "int",
+          "name": "string",
+          "description": "string",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        }
       }
       ```
     - **404 Not Found**:
       ```json
       {
-        "error": "User-organisation relationship not found"
+        "error": "User organisation not found"
       }
       ```
 
   ##### `DELETE /user_organisations/{id}`
-  - **Description**: Delete a user-organisation relationship by ID.
+  - **Description**: Delete a user organisation by ID.
   - **Parameters**:
     - `id`: `int` (Path Parameter)
   - **Response**:
@@ -543,7 +646,7 @@
     - **404 Not Found**:
       ```json
       {
-        "error": "User-organisation relationship not found"
+        "error": "User organisation not found"
       }
       ```
 
@@ -561,7 +664,36 @@
     ```json
     {
       "user_id": "string",
-      "message_data": "json",
+      "message_data": {
+        "id": "int",
+        "sender_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
+        "receiver_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
+        "subject": "string",
+        "body": "text",
+        "sent_at": "datetime"
+      },
       "read_status": "string"
     }
     ```
@@ -570,8 +702,48 @@
       ```json
       {
         "id": "int",
-        "user_id": "string",
-        "message_data": "json",
+        "user_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
+        "message_data": {
+          "id": "int",
+          "sender_id": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
+          "receiver_id": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
+          "subject": "string",
+          "body": "text",
+          "sent_at": "datetime"
+        },
         "read_status": "string",
         "created_at": "datetime"
       }
@@ -591,8 +763,50 @@
       [
         {
           "id": "int",
-          "user_id": "string",
-          "message_data": "json",
+          "user_id": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
+          "message_data": {
+            "id": "int",
+            "sender_id": {
+              "id": "int",
+              "unique_id": "string",
+              "first_name": "string",
+              "last_name": "string",
+              "phone": "int",
+              "email": "string",
+              "password": "string",
+              "role": "bool",
+              "created_at": "datetime",
+              "updated_at": "datetime"
+
+
+            },
+            "receiver_id": {
+              "id": "int",
+              "unique_id": "string",
+              "first_name": "string",
+              "last_name": "string",
+              "phone": "int",
+              "email": "string",
+              "password": "string",
+              "role": "bool",
+              "created_at": "datetime",
+              "updated_at": "datetime"
+            },
+            "subject": "string",
+            "body": "text",
+            "sent_at": "datetime"
+          },
           "read_status": "string",
           "created_at": "datetime"
         }
@@ -608,38 +822,48 @@
       ```json
       {
         "id": "int",
-        "user_id": "string",
-        "message_data": "json",
-        "read_status": "string",
-        "created_at": "datetime"
-      }
-      ```
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Notification not found"
-      }
-      ```
-
-  ##### `PUT /notifications/{id}`
-  - **Description**: Update a notification by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Request Body**:
-    ```json
-    {
-      "user_id": "string",
-      "message_data": "json",
-      "read_status": "string"
-    }
-    ```
-  - **Response**:
-    - **200 OK**:
-      ```json
-      {
-        "id": "int",
-        "user_id": "string",
-        "message_data": "json",
+        "user_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
+        "message_data": {
+          "id": "int",
+          "sender_id": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
+          "receiver_id": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
+          "subject": "string",
+          "body": "text",
+          "sent_at": "datetime"
+        },
         "read_status": "string",
         "created_at": "datetime"
       }
@@ -693,13 +917,22 @@
         "body": "text",
         "image": "string",
         "status": "string",
-        "author_id": "string",
+        "author_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
         "created_at": "datetime",
         "updated_at": "datetime"
       }
-     
-
- ```
+      ```
     - **400 Bad Request**:
       ```json
       {
@@ -719,7 +952,18 @@
           "body": "text",
           "image": "string",
           "status": "string",
-          "author_id": "string",
+          "author_id": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
           "created_at": "datetime",
           "updated_at": "datetime"
         }
@@ -739,7 +983,18 @@
         "body": "text",
         "image": "string",
         "status": "string",
-        "author_id": "string",
+        "author_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
         "created_at": "datetime",
         "updated_at": "datetime"
       }
@@ -774,7 +1029,18 @@
         "body": "text",
         "image": "string",
         "status": "string",
-        "author_id": "string",
+        "author_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
         "created_at": "datetime",
         "updated_at": "datetime"
       }
@@ -812,8 +1078,8 @@
   - **Request Body**:
     ```json
     {
-      "sender_id": "string",
-      "receiver_id": "string",
+      "sender_id": "int",
+      "receiver_id": "int",
       "subject": "string",
       "body": "text"
     }
@@ -823,8 +1089,30 @@
       ```json
       {
         "id": "int",
-        "sender_id": "string",
-        "receiver_id": "string",
+        "sender_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
+        "receiver_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
         "subject": "string",
         "body": "text",
         "sent_at": "datetime"
@@ -845,8 +1133,32 @@
       [
         {
           "id": "int",
-          "sender_id": "string",
-          "receiver_id": "string",
+          "sender_id": {
+           
+
+ "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
+          "receiver_id": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
           "subject": "string",
           "body": "text",
           "sent_at": "datetime"
@@ -863,40 +1175,30 @@
       ```json
       {
         "id": "int",
-        "sender_id": "string",
-        "receiver_id": "string",
-        "subject": "string",
-        "body": "text",
-        "sent_at": "datetime"
-      }
-      ```
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Message not found"
-      }
-      ```
-
-  ##### `PUT /messages/{id}`
-  - **Description**: Update a message by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Request Body**:
-    ```json
-    {
-      "sender_id": "string",
-      "receiver_id": "string",
-      "subject": "string",
-      "body": "text"
-    }
-    ```
-  - **Response**:
-    - **200 OK**:
-      ```json
-      {
-        "id": "int",
-        "sender_id": "string",
-        "receiver_id": "string",
+        "sender_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
+        "receiver_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
         "subject": "string",
         "body": "text",
         "sent_at": "datetime"
@@ -919,135 +1221,6 @@
       ```json
       {
         "error": "Message not found"
-      }
-      ```
-
----
-
-#### **Payments API**
-
-- **Endpoint**: `/payments`
-- **Description**: Manage payments.
-- **Methods**:
-
-  ##### `POST /payments`
-  - **Description**: Create a new payment.
-  - **Request Body**:
-    ```json
-    {
-      "user_id": "string",
-      "user_data": "json",
-      "amount": "decimal",
-      "payment_method": "string",
-      "status": "string"
-    }
-    ```
-  - **Response**:
-    - **201 Created**:
-      ```json
-      {
-        "id": "int",
-        "user_id": "string",
-        "user_data": "json",
-        "amount": "decimal",
-        "payment_method": "string",
-        "status": "string",
-        "created_at": "datetime"
-      }
-      ```
-    - **400 Bad Request**:
-      ```json
-      {
-        "error": "Invalid input data"
-      }
-      ```
-
-  ##### `GET /payments`
-  - **Description**: Get a list of payments.
-  - **Response**:
-    - **200 OK**:
-      ```json
-      [
-        {
-          "id": "int",
-          "user_id": "string",
-          "user_data": "json",
-          "amount": "decimal",
-          "payment_method": "string",
-          "status": "string",
-          "created_at": "datetime"
-        }
-      ]
-      ```
-
-  ##### `GET /payments/{id}`
-  - **Description**: Get a payment by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **200 OK**:
-      ```json
-      {
-        "id": "int",
-        "user_id": "string",
-        "user_data": "json",
-        "amount": "decimal",
-        "payment_method": "string",
-        "status": "string",
-        "created_at": "datetime"
-      }
-      ```
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Payment not found"
-      }
-      ```
-
-  ##### `PUT /payments/{id}`
-  - **Description**: Update a payment by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Request Body**:
-    ```json
-    {
-      "user_id": "string",
-      "user_data": "json",
-      "amount": "decimal",
-      "payment_method": "string",
-      "status": "string"
-    }
-    ```
-  - **Response**:
-    - **200 OK**:
-      ```json
-      {
-        "id": "int",
-        "user_id": "string",
-        "user_data": "json",
-        "amount": "decimal",
-        "payment_method": "string",
-        "status": "string",
-        "created_at": "datetime"
-      }
-      ```
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Payment not found"
-      }
-      ```
-
-  ##### `DELETE /payments/{id}`
-  - **Description**: Delete a payment by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **204 No Content**
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Payment not found"
       }
       ```
 
