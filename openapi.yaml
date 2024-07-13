@@ -340,3 +340,4 @@ paths:
       responses:
         '204':
           description: Post deleted
+
