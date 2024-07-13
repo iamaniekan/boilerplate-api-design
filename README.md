@@ -879,6 +879,48 @@
       }
       ```
 
+    ##### `PUT /posts/{id}`
+  - **Description**: Update a post by ID.
+  - **Authentication**: Required
+  - **Parameters**:
+    - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Response**:
+    - **200 OK**:
+      ```json
+      {
+        "response": "Post updated",
+      }
+      ```
+    - **404 Not Found**:
+      ```json
+      {
+        "error": "Post not found"
+      }
+      ```
+
+    ##### `DELETE /posts/{id}`
+  - **Description**: Update a post by ID.
+  - **Authentication**: Required
+  - **Parameters**:
+    - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Response**:
+    - **200 OK**:
+      ```json
+      {
+        "response": "Post deleted",
+      }
+      ```
+    - **404 Not Found**:
+      ```json
+      {
+        "error": "Post not found"
+      }
+      ```
+
 - **Endpoint**: `/messages`
 - **Description**: Manage messages. Requires authentication.
 - **Methods**:
