@@ -1,0 +1,9 @@
+openapi: 3.1.0
+info:
+  title: HNG Stage Three Tasks API
+  description: This API provides endpoints to manage users, organisations, blog posts, payments, notifications, and messages. 
+    It is designed based on the OpenAPI 3.0 specification and aims to demonstrate a well-structured API definition 
+    using FastAPI as the backend framework.
+  version: 1.0.0
+servers:
+  - url: http://api.domain.com/v1
