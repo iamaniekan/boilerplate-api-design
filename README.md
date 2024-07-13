@@ -96,22 +96,21 @@
   - `status`: `varchar`
   - `created_at`: `datetime`
 
+### **API Design Documentation with JWT Authentication**
+
 ---
 
-### API Design Documentation
+#### **Auth API**
 
-#### **Users API**
-
-- **Endpoint**: `/users`
-- **Description**: Manage users.
+- **Endpoint**: `/auth`
+- **Description**: Manage authentication and authorization.
 - **Methods**:
 
-  ##### `POST /users`
-  - **Description**: Create a new user.
+  ##### `POST /auth/register`
+  - **Description**: Register a new user.
   - **Request Body**:
     ```json
     {
-      "unique_id": "string",
       "first_name": "string",
       "last_name": "string",
       "phone": "int",
@@ -124,16 +123,7 @@
     - **201 Created**:
       ```json
       {
-        "id": "int",
-        "unique_id": "string",
-        "first_name": "string",
-        "last_name": "string",
-        "phone": "int",
-        "email": "string",
-        "password": "string",
-        "role": "bool",
-        "created_at": "datetime",
-        "updated_at": "datetime"
+        "message": "User registered successfully"
       }
       ```
     - **400 Bad Request**:
@@ -142,15 +132,78 @@
         "error": "Invalid input data"
       }
       ```
+    - **409 Conflict**:
+      ```json
+      {
+        "error": "User already exists"
+      }
+      ```
+
+  ##### `POST /auth/login`
+  - **Description**: Log in a user and return a JWT token.
+  - **Request Body**:
+    ```json
+    {
+      "email": "string",
+      "password": "string"
+    }
+    ```
+  - **Response**:
+    - **200 OK**:
+      ```json
+      {
+        "token": "string"
+      }
+      ```
+    - **400 Bad Request**:
+      ```json
+      {
+        "error": "Invalid email or password"
+      }
+      ```
+    - **401 Unauthorized**:
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+
+  ##### `POST /auth/logout`
+  - **Description**: Log out a user by invalidating the JWT token.
+  - **Response**:
+    - **200 OK**:
+      ```json
+      {
+        "message": "User logged out successfully"
+      }
+      ```
+
+---
+
+#### **Securing Endpoints with JWT**
+
+**General Security Rules:**
+- **Authentication**: Include a JWT token in the `Authorization` header of the request with the format `Bearer <token>`.
+- **Authorization**: Check user roles and permissions based on the information in the JWT token.
+
+---
+
+#### **Protected Endpoints**
+
+- **Endpoint**: `/users`
+- **Description**: Manage users. Requires authentication.
+- **Methods**:
 
   ##### `GET /users`
   - **Description**: Get a list of users.
+  - **Authentication**: Required
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
   - **Response**:
     - **200 OK**:
       ```json
       [
         {
-          "id": "int",
           "unique_id": "string",
           "first_name": "string",
           "last_name": "string",
@@ -164,15 +217,17 @@
       ]
       ```
 
-  ##### `GET /users/{id}`
+  ##### `GET /users/{unique_id}`
   - **Description**: Get a user by ID.
+  - **Authentication**: Required
   - **Parameters**:
-    - `id`: `int` (Path Parameter)
+    - `unique+_id`: `string` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
   - **Response**:
     - **200 OK**:
       ```json
       {
-        "id": "int",
         "unique_id": "string",
         "first_name": "string",
         "last_name": "string",
@@ -190,105 +245,23 @@
         "error": "User not found"
       }
       ```
-
-  ##### `PUT /users/{id}`
-  - **Description**: Update a user by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Request Body**:
-    ```json
-    {
-      "unique_id": "string",
-      "first_name": "string",
-      "last_name": "string",
-      "phone": "int",
-      "email": "string",
-      "password": "string",
-      "role": "bool"
-    }
-    ```
-  - **Response**:
-    - **200 OK**:
-      ```json
-      {
-        "id": "int",
-        "unique_id": "string",
-        "first_name": "string",
-        "last_name": "string",
-        "phone": "int",
-        "email": "string",
-        "password": "string",
-        "role": "bool",
-        "created_at": "datetime",
-        "updated_at": "datetime"
-      }
-      ```
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "User not found"
-      }
-      ```
-
-  ##### `DELETE /users/{id}`
-  - **Description**: Delete a user by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **204 No Content**
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "User not found"
-      }
-      ```
-
----
-
-#### **Transactions API**
 
 - **Endpoint**: `/transactions`
-- **Description**: Manage transactions.
+- **Description**: Manage transactions. Requires authentication.
 - **Methods**:
 
-  ##### `POST /transactions`
-  - **Description**: Create a new transaction.
-  - **Request Body**:
-    ```json
-    {
-      "user_id": "string",
-      "payment_data": {
-        "id": "int",
-        "user_id": "string",
-        "user_data": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
-        "amount": "decimal",
-        "payment_method": "string",
-        "status": "string",
-        "created_at": "datetime"
-      }
-    }
-    ```
+  ##### `GET /transactions`
+  - **Description**: Get a list of transactions.
+  - **Authentication**: Required
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
   - **Response**:
-    - **201 Created**:
+    - **200 OK**:
       ```json
-      {
-        "id": "int",
-        "user_id": "string",
-        "payment_data": {
+      [
+        {
           "id": "int",
-          "user_id": "string",
-          "user_data": {
+          "user_id": {
             "id": "int",
             "unique_id": "string",
             "first_name": "string",
@@ -300,33 +273,9 @@
             "created_at": "datetime",
             "updated_at": "datetime"
           },
-          "amount": "decimal",
-          "payment_method": "string",
-          "status": "string",
-          "created_at": "datetime"
-        },
-        "created_at": "datetime"
-      }
-      ```
-    - **400 Bad Request**:
-      ```json
-      {
-        "error": "Invalid input data"
-      }
-      ```
-
-  ##### `GET /transactions`
-  - **Description**: Get a list of transactions.
-  - **Response**:
-    - **200 OK**:
-      ```json
-      [
-        {
-          "id": "int",
-          "user_id": "string",
           "payment_data": {
             "id": "int",
-            "user_id": "string",
+            "user_id": "int",
             "user_data": {
               "id": "int",
               "unique_id": "string",
@@ -351,17 +300,31 @@
 
   ##### `GET /transactions/{id}`
   - **Description**: Get a transaction by ID.
+  - **Authentication**: Required
   - **Parameters**:
     - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
   - **Response**:
     - **200 OK**:
       ```json
       {
         "id": "int",
-        "user_id": "string",
+        "user_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
         "payment_data": {
           "id": "int",
-          "user_id": "string",
+          "user_id": "int",
           "user_data": {
             "id": "int",
             "unique_id": "string",
@@ -389,392 +352,22 @@
       }
       ```
 
-  ##### `DELETE /transactions/{id}`
-  - **Description**: Delete a transaction by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **204 No Content**
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Transaction not found"
-      }
-      ```
-
----
-
-#### **Organisations API**
-
-- **Endpoint**: `/organisations`
-- **Description**: Manage organisations.
-- **Methods**:
-
-  ##### `POST /organisations`
-  - **Description**: Create a new organisation.
-  - **Request Body**:
-    ```json
-    {
-      "name": "string",
-      "description": "string"
-    }
-    ```
-  - **Response**:
-    - **201 Created**:
-      ```json
-      {
-        "id": "int",
-        "name": "string",
-        "description": "string",
-        "created_at": "datetime",
-        "updated_at": "datetime"
-      }
-      ```
-    - **400 Bad Request**:
-      ```json
-      {
-        "error": "Invalid input data"
-      }
-      ```
-
-  ##### `GET /organisations`
-  - **Description**: Get a list of organisations.
-  - **Response**:
-    - **200 OK**:
-      ```json
-      [
-        {
-          "id
-
-": "int",
-          "name": "string",
-          "description": "string",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        }
-      ]
-      ```
-
-  ##### `GET /organisations/{id}`
-  - **Description**: Get an organisation by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **200 OK**:
-      ```json
-      {
-        "id": "int",
-        "name": "string",
-        "description": "string",
-        "created_at": "datetime",
-        "updated_at": "datetime"
-      }
-      ```
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Organisation not found"
-      }
-      ```
-
-  ##### `PUT /organisations/{id}`
-  - **Description**: Update an organisation by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Request Body**:
-    ```json
-    {
-      "name": "string",
-      "description": "string"
-    }
-    ```
-  - **Response**:
-    - **200 OK**:
-      ```json
-      {
-        "id": "int",
-        "name": "string",
-        "description": "string",
-        "created_at": "datetime",
-        "updated_at": "datetime"
-      }
-      ```
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Organisation not found"
-      }
-      ```
-
-  ##### `DELETE /organisations/{id}`
-  - **Description**: Delete an organisation by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **204 No Content**
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Organisation not found"
-      }
-      ```
-
----
-
-#### **User Organisation API**
-
-- **Endpoint**: `/user_organisations`
-- **Description**: Manage user organisations.
-- **Methods**:
-
-  ##### `POST /user_organisations`
-  - **Description**: Create a new user organisation.
-  - **Request Body**:
-    ```json
-    {
-      "user_id": "string",
-      "organisation_id": "int"
-    }
-    ```
-  - **Response**:
-    - **201 Created**:
-      ```json
-      {
-        "id": "int",
-        "user_id": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
-        "organisation_id": {
-          "id": "int",
-          "name": "string",
-          "description": "string",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        }
-      }
-      ```
-    - **400 Bad Request**:
-      ```json
-      {
-        "error": "Invalid input data"
-      }
-      ```
-
-  ##### `GET /user_organisations`
-  - **Description**: Get a list of user organisations.
-  - **Response**:
-    - **200 OK**:
-      ```json
-      [
-        {
-          "id": "int",
-          "user_id": {
-            "id": "int",
-            "unique_id": "string",
-            "first_name": "string",
-            "last_name": "string",
-            "phone": "int",
-            "email": "string",
-            "password": "string",
-            "role": "bool",
-            "created_at": "datetime",
-            "updated_at": "datetime"
-          },
-          "organisation_id": {
-            "id": "int",
-            "name": "string",
-            "description": "string",
-            "created_at": "datetime",
-            "updated_at": "datetime"
-          }
-        }
-      ]
-      ```
-
-  ##### `GET /user_organisations/{id}`
-  - **Description**: Get a user organisation by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **200 OK**:
-      ```json
-      {
-        "id": "int",
-        "user_id": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
-        "organisation_id": {
-          "id": "int",
-          "name": "string",
-          "description": "string",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        }
-      }
-      ```
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "User organisation not found"
-      }
-      ```
-
-  ##### `DELETE /user_organisations/{id}`
-  - **Description**: Delete a user organisation by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **204 No Content**
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "User organisation not found"
-      }
-      ```
-
----
-
-#### **Notifications API**
-
 - **Endpoint**: `/notifications`
-- **Description**: Manage notifications.
+- **Description**: Manage notifications. Requires authentication.
 - **Methods**:
-
-  ##### `POST /notifications`
-  - **Description**: Create a new notification.
-  - **Request Body**:
-    ```json
-    {
-      "user_id": "string",
-      "message_data": {
-        "id": "int",
-        "sender_id": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
-        "receiver_id": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
-        "subject": "string",
-        "body": "text",
-        "sent_at": "datetime"
-      },
-      "read_status": "string"
-    }
-    ```
-  - **Response**:
-    - **201 Created**:
-      ```json
-      {
-        "id": "int",
-        "user_id": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
-        "message_data": {
-          "id": "int",
-          "sender_id": {
-            "id": "int",
-            "unique_id": "string",
-            "first_name": "string",
-            "last_name": "string",
-            "phone": "int",
-            "email": "string",
-            "password": "string",
-            "role": "bool",
-            "created_at": "datetime",
-            "updated_at": "datetime"
-          },
-          "receiver_id": {
-            "id": "int",
-            "unique_id": "string",
-            "first_name": "string",
-            "last_name": "string",
-            "phone": "int",
-            "email": "string",
-            "password": "string",
-            "role": "bool",
-            "created_at": "datetime",
-            "updated_at": "datetime"
-          },
-          "subject": "string",
-          "body": "text",
-          "sent_at": "datetime"
-        },
-        "read_status": "string",
-        "created_at": "datetime"
-      }
-      ```
-    - **400 Bad Request**:
-      ```json
-      {
-        "error": "Invalid input data"
-      }
-      ```
 
   ##### `GET /notifications`
   - **Description**: Get a list of notifications.
+  - **Authentication**: Required
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
   - **Response**:
     - **200 OK**:
       ```json
       [
         {
           "id": "int",
-          "user_id": {
-            "id": "int",
-            "unique_id": "string",
-            "first_name": "string",
-            "last_name": "string",
-            "phone": "int",
-            "email": "string",
-            "password": "string",
-            "role": "bool",
-            "created_at": "datetime",
-            "updated_at": "datetime"
-          },
+          "user_id": "string",
           "message_data": {
             "id": "int",
             "sender_id": {
@@ -788,8 +381,6 @@
               "role": "bool",
               "created_at": "datetime",
               "updated_at": "datetime"
-
-
             },
             "receiver_id": {
               "id": "int",
@@ -807,7 +398,7 @@
             "body": "text",
             "sent_at": "datetime"
           },
-          "read_status": "string",
+          "status": "string",
           "created_at": "datetime"
         }
       ]
@@ -815,25 +406,19 @@
 
   ##### `GET /notifications/{id}`
   - **Description**: Get a notification by ID.
+  - **Authentication**: Required
   - **Parameters**:
     - `id`: `int` (Path Parameter)
+  - **Request Header**:
+   
+
+ - `Authorization`: `Bearer <token>`
   - **Response**:
     - **200 OK**:
       ```json
       {
         "id": "int",
-        "user_id": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
+        "user_id": "string",
         "message_data": {
           "id": "int",
           "sender_id": {
@@ -875,73 +460,15 @@
       }
       ```
 
-  ##### `DELETE /notifications/{id}`
-  - **Description**: Delete a notification by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **204 No Content**
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Notification not found"
-      }
-      ```
-
----
-
-#### **Posts API**
-
 - **Endpoint**: `/posts`
-- **Description**: Manage posts.
+- **Description**: Manage posts. Requires authentication.
 - **Methods**:
-
-  ##### `POST /posts`
-  - **Description**: Create a new post.
-  - **Request Body**:
-    ```json
-    {
-      "title": "string",
-      "body": "text",
-      "image": "string",
-      "status": "string",
-      "author_id": "string"
-    }
-    ```
-  - **Response**:
-    - **201 Created**:
-      ```json
-      {
-        "id": "int",
-        "title": "string",
-        "body": "text",
-        "image": "string",
-        "status": "string",
-        "author_id": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
-        "created_at": "datetime",
-        "updated_at": "datetime"
-      }
-      ```
-    - **400 Bad Request**:
-      ```json
-      {
-        "error": "Invalid input data"
-      }
-      ```
 
   ##### `GET /posts`
   - **Description**: Get a list of posts.
+  - **Authentication**: Required
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
   - **Response**:
     - **200 OK**:
       ```json
@@ -972,8 +499,11 @@
 
   ##### `GET /posts/{id}`
   - **Description**: Get a post by ID.
+  - **Authentication**: Required
   - **Parameters**:
     - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
   - **Response**:
     - **200 OK**:
       ```json
@@ -1005,128 +535,16 @@
         "error": "Post not found"
       }
       ```
-
-  ##### `PUT /posts/{id}`
-  - **Description**: Update a post by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Request Body**:
-    ```json
-    {
-      "title": "string",
-      "body": "text",
-      "image": "string",
-      "status": "string",
-      "author_id": "string"
-    }
-    ```
-  - **Response**:
-    - **200 OK**:
-      ```json
-      {
-        "id": "int",
-        "title": "string",
-        "body": "text",
-        "image": "string",
-        "status": "string",
-        "author_id": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
-        "created_at": "datetime",
-        "updated_at": "datetime"
-      }
-      ```
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Post not found"
-      }
-      ```
-
-  ##### `DELETE /posts/{id}`
-  - **Description**: Delete a post by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **204 No Content**
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Post not found"
-      }
-      ```
-
----
-
-#### **Messages API**
 
 - **Endpoint**: `/messages`
-- **Description**: Manage messages.
+- **Description**: Manage messages. Requires authentication.
 - **Methods**:
-
-  ##### `POST /messages`
-  - **Description**: Create a new message.
-  - **Request Body**:
-    ```json
-    {
-      "sender_id": "int",
-      "receiver_id": "int",
-      "subject": "string",
-      "body": "text"
-    }
-    ```
-  - **Response**:
-    - **201 Created**:
-      ```json
-      {
-        "id": "int",
-        "sender_id": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
-        "receiver_id": {
-          "id": "int",
-          "unique_id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "phone": "int",
-          "email": "string",
-          "password": "string",
-          "role": "bool",
-          "created_at": "datetime",
-          "updated_at": "datetime"
-        },
-        "subject": "string",
-        "body": "text",
-        "sent_at": "datetime"
-      }
-      ```
-    - **400 Bad Request**:
-      ```json
-      {
-        "error": "Invalid input data"
-      }
-      ```
 
   ##### `GET /messages`
   - **Description**: Get a list of messages.
+  - **Authentication**: Required
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
   - **Response**:
     - **200 OK**:
       ```json
@@ -1134,9 +552,7 @@
         {
           "id": "int",
           "sender_id": {
-           
-
- "id": "int",
+            "id": "int",
             "unique_id": "string",
             "first_name": "string",
             "last_name": "string",
@@ -1168,8 +584,11 @@
 
   ##### `GET /messages/{id}`
   - **Description**: Get a message by ID.
+  - **Authentication**: Required
   - **Parameters**:
     - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
   - **Response**:
     - **200 OK**:
       ```json
@@ -1210,18 +629,4 @@
         "error": "Message not found"
       }
       ```
-
-  ##### `DELETE /messages/{id}`
-  - **Description**: Delete a message by ID.
-  - **Parameters**:
-    - `id`: `int` (Path Parameter)
-  - **Response**:
-    - **204 No Content**
-    - **404 Not Found**:
-      ```json
-      {
-        "error": "Message not found"
-      }
-      ```
-
 ---
