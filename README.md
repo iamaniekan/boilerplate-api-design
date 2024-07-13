@@ -16,16 +16,6 @@
   - `created_at`: `datetime`
   - `updated_at`: `datetime`
 
-#### **Transactions Table**
-
-- **Table Name**: transactions
-- **Description**: Stores transaction details.
-- **Fields**:
-  - `id`: `int` (Primary Key, Auto Increment)
-  - `user_id`: `varchar` (Foreign Key referencing `users.unique_id`)
-  - `payment_data`: `json`
-  - `created_at`: `datetime`
-
 #### **Organisations Table**
 
 - **Table Name**: organisations
@@ -94,6 +84,16 @@
   - `amount`: `decimal`
   - `payment_method`: `varchar`
   - `status`: `varchar`
+  - `created_at`: `datetime`
+
+#### **Transactions Table**
+
+- **Table Name**: transactions
+- **Description**: Stores transaction details.
+- **Fields**:
+  - `id`: `int` (Primary Key, Auto Increment)
+  - `user_id`: `varchar` (Foreign Key referencing `users.unique_id`)
+  - `payment_data`: `json`
   - `created_at`: `datetime`
 
 ### **API Design Documentation with JWT Authentication**
@@ -588,6 +588,108 @@
       }
       ```
 
+### Endpoint: `/payments`
+
+**Description**: Manage payments. Requires authentication.
+
+### Methods:
+
+#### `GET /payments`
+
+- **Description**: Get a list of payments.
+- **Authentication**: Required
+- **Request Header**:
+  - `Authorization`: `Bearer <token>`
+- **Response**:
+  - **200 OK**:
+    ```json
+    [
+      {
+        "id": "int",
+        "user_id": "string",
+        "user_data": "json",
+        "amount": "decimal",
+        "payment_method": "string",
+        "status": "string",
+        "created_at": "datetime"
+      }
+    ]
+    ```
+  - **401 Unauthorized**:
+    ```json
+    {
+      "error": "Unauthorized"
+    }
+    ```
+
+#### `GET /payments/{id}`
+
+- **Description**: Get a payment by ID.
+- **Authentication**: Required
+- **Parameters**:
+  - `id`: `int` (Path Parameter)
+- **Request Header**:
+  - `Authorization`: `Bearer <token>`
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "id": "int",
+      "user_id": "string",
+      "user_data": "json",
+      "amount": "decimal",
+      "payment_method": "string",
+      "status": "string",
+      "created_at": "datetime"
+    }
+    ```
+  - **404 Not Found**:
+    ```json
+    {
+      "error": "Payment not found"
+    }
+    ```
+  - **401 Unauthorized**:
+    ```json
+    {
+      "error": "Unauthorized"
+    }
+    ```
+
+#### `POST /payments`
+
+- **Description**: Create a new payment.
+- **Authentication**: Required
+- **Request Header**:
+  - `Authorization`: `Bearer <token>`
+- **Request Body**:
+  ```json
+  {
+    "user_id": "string",
+    "amount": "decimal",
+    "payment_method": "string",
+    "status": "string"
+  }
+  ```
+- **Response**:
+  - **201 Created**:
+    ```json
+    {
+      "message": "Payment created successfully"
+    }
+    ```
+  - **400 Bad Request**:
+    ```json
+    {
+      "error": "Invalid input data"
+    }
+    ```
+  - **401 Unauthorized**:
+    ```json
+    {
+      "error": "Unauthorized"
+    }
+    ```
 
 - **Endpoint**: `/transactions`
 - **Description**: Manage transactions. Requires authentication.
