@@ -29,6 +29,9 @@ tags:
   - name: Transactions
     description: Manage transactions. Requires authentication.
 
+  - name: Posts
+    description: Manage Blog post. Requires authentication.
+
 paths:
 # Authentication
   /auth/register:
@@ -739,87 +742,92 @@ paths:
                   error:
                     type: string
 # Post
-  paths:
-    /posts:
-      get:
-        summary: Retrieve a list of posts
-        security:
-          - BearerAuth: []
-        responses:
-          '200':
-            description: A list of posts
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Post'
-      post:
-        summary: Create a new post
-        security:
-          - BearerAuth: []
-        requestBody:
-          required: true
+  /posts:
+    get:
+      summary: Retrieve a list of posts
+      tags: [Posts]
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: A list of posts
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Post'
-        responses:
-          '201':
-            description: Post created
-    /posts/{id}:
-      get:
-        summary: Retrieve a post by ID
-        security:
-          - BearerAuth: []
-        parameters:
-          - name: id
-            in: path
-            required: true
-            schema:
-              type: integer
-              format: int64
-        responses:
-          '200':
-            description: A post
-            content:
-              application/json:
-                schema:
+                type: array
+                items:
                   $ref: '#/components/schemas/Post'
-      put:
-        summary: Update a post by ID
-        security:
-          - BearerAuth: []
-        parameters:
-          - name: id
-            in: path
-            required: true
+    post:
+      summary: Create a new post
+      tags: [Posts]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
             schema:
-              type: integer
-              format: int64
-        requestBody:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '201':
+          description: Post created
+
+  /posts/{id}:
+    get:
+      summary: Retrieve a post by ID
+      tags: [Posts]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
           required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: A post
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Post'
-        responses:
-          '200':
-            description: Post updated
-      delete:
-        summary: Delete a post by ID
-        security:
-          - BearerAuth: []
-        parameters:
-          - name: id
-            in: path
-            required: true
+    put:
+      summary: Update a post by ID
+      tags: [Posts]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
             schema:
-              type: integer
-              format: int64
-        responses:
-          '204':
-            description: Post deleted
+              $ref: '#/components/schemas/Post'
+      responses:
+        '200':
+          description: Post updated
+    delete:
+      summary: Delete a post by ID
+      tags: [Posts]
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Post deleted
 
 
 components:
