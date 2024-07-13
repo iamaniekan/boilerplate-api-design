@@ -246,6 +246,349 @@
       }
       ```
 
+- **Endpoint**: `/organisations`
+- **Description**: Manage organizations. Requires authentication.
+- **Methods**:
+
+  ##### `GET /organisations`
+  - **Description**: Get a list of organizations.
+  - **Authentication**: Required
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Response**:
+    - **200 OK**:
+      ```json
+      [
+        {
+          "id": "int",
+          "name": "string",
+          "description": "string",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        }
+      ]
+      ```
+    - **401 Unauthorized**:
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+
+  ##### `GET /organisations/{id}`
+  - **Description**: Get an organization by ID.
+  - **Authentication**: Required
+  - **Parameters**:
+    - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Response**:
+    - **200 OK**:
+      ```json
+      {
+        "id": "int",
+        "name": "string",
+        "description": "string",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+      ```
+    - **404 Not Found**:
+      ```json
+      {
+        "error": "Organization not found"
+      }
+      ```
+    - **401 Unauthorized**:
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+
+  ##### `POST /organisations`
+  - **Description**: Create a new organization.
+  - **Authentication**: Required
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Request Body**:
+    ```json
+    {
+      "name": "string",
+      "description": "string"
+    }
+    ```
+  - **Response**:
+    - **201 Created**:
+      ```json
+      {
+        "message": "Organization created successfully"
+      }
+      ```
+    - **400 Bad Request**:
+      ```json
+      {
+        "error": "Invalid input data"
+      }
+      ```
+    - **401 Unauthorized**:
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+
+  ##### `PUT /organisations/{id}`
+  - **Description**: Update an existing organization.
+  - **Authentication**: Required
+  - **Parameters**:
+    - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Request Body**:
+    ```json
+    {
+      "name": "string",
+      "description": "string"
+    }
+    ```
+  - **Response**:
+    - **200 OK**:
+      ```json
+      {
+        "message": "Organization updated successfully"
+      }
+      ```
+    - **400 Bad Request**:
+      ```json
+      {
+        "error": "Invalid input data"
+      }
+      ```
+    - **404 Not Found**:
+      ```json
+      {
+        "error": "Organization not found"
+      }
+      ```
+    - **401 Unauthorized**:
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+
+  ##### `DELETE /organisations/{id}`
+  - **Description**: Delete an organization by ID.
+  - **Authentication**: Required
+  - **Parameters**:
+    - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Response**:
+    - **200 OK**:
+      ```json
+      {
+        "message": "Organization deleted successfully"
+      }
+      ```
+    - **404 Not Found**:
+      ```json
+      {
+        "error": "Organization not found"
+      }
+      ```
+    - **401 Unauthorized**:
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+
+- **Endpoint**: `/user_organisation`
+- **Description**: Manage user-organisation relationships. Requires authentication.
+- **Methods**:
+
+  ##### `GET /user_organisation`
+  - **Description**: Get a list of user-organisation relationships.
+  - **Authentication**: Required
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Response**:
+    - **200 OK**:
+      ```json
+      [
+        {
+          "id": "int",
+          "user_id": {
+            "id": "int",
+            "unique_id": "string",
+            "first_name": "string",
+            "last_name": "string",
+            "phone": "int",
+            "email": "string",
+            "password": "string",
+            "role": "bool",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          },
+          "organisation_id": {
+            "id": "int",
+            "name": "string",
+            "description": "string",
+            "created_at": "datetime",
+            "updated_at": "datetime"
+          }
+        }
+      ]
+      ```
+
+  ##### `GET /user_organisation/{id}`
+  - **Description**: Get a user-organisation relationship by ID.
+  - **Authentication**: Required
+  - **Parameters**:
+    - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Response**:
+    - **200 OK**:
+      ```json
+      {
+        "id": "int",
+        "user_id": {
+          "id": "int",
+          "unique_id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "phone": "int",
+          "email": "string",
+          "password": "string",
+          "role": "bool",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        },
+        "organisation_id": {
+          "id": "int",
+          "name": "string",
+          "description": "string",
+          "created_at": "datetime",
+          "updated_at": "datetime"
+        }
+      }
+      ```
+    - **404 Not Found**:
+      ```json
+      {
+        "error": "User-organisation relationship not found"
+      }
+      ```
+    - **401 Unauthorized**:
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+
+  ##### `POST /user_organisation`
+  - **Description**: Create a new user-organisation relationship.
+  - **Authentication**: Required
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Request Body**:
+    ```json
+    {
+      "user_id": "int",
+      "organisation_id": "int"
+    }
+    ```
+  - **Response**:
+    - **201 Created**:
+      ```json
+      {
+        "message": "User-organisation relationship created successfully"
+      }
+      ```
+    - **400 Bad Request**:
+      ```json
+      {
+        "error": "Invalid input data"
+      }
+      ```
+    - **401 Unauthorized**:
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+
+  ##### `PUT /user_organisation/{id}`
+  - **Description**: Update an existing user-organisation relationship.
+  - **Authentication**: Required
+  - **Parameters**:
+    - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Request Body**:
+    ```json
+    {
+      "user_id": "int",
+      "organisation_id": "int"
+    }
+    ```
+  - **Response**:
+    - **200 OK**:
+      ```json
+      {
+        "message": "User-organisation relationship updated successfully"
+      }
+      ```
+    - **400 Bad Request**:
+      ```json
+      {
+        "error": "Invalid input data"
+      }
+      ```
+    - **404 Not Found**:
+      ```json
+      {
+        "error": "User-organisation relationship not found"
+      }
+      ```
+    - **401 Unauthorized**:
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+
+  ##### `DELETE /user_organisation/{id}`
+  - **Description**: Delete a user-organisation relationship by ID.
+  - **Authentication**: Required
+  - **Parameters**:
+    - `id`: `int` (Path Parameter)
+  - **Request Header**:
+    - `Authorization`: `Bearer <token>`
+  - **Response**:
+    - **200 OK**:
+      ```json
+      {
+        "message": "User-organisation relationship deleted successfully"
+      }
+      ```
+    - **404 Not Found**:
+      ```json
+      {
+        "error": "User-organisation relationship not found"
+      }
+      ```
+    - **401 Unauthorized**:
+      ```json
+      {
+        "error": "Unauthorized"
+      }
+      ```
+
+
 - **Endpoint**: `/transactions`
 - **Description**: Manage transactions. Requires authentication.
 - **Methods**:
