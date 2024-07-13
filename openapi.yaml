@@ -22,12 +22,6 @@ tags:
     
   - name: User Organisation
     description: Manage user-organisation relationships. Requires authentication.
-  
-  - name: Payments
-    description: Manage payments. Requires authentication.
-
-  - name: Transactions
-    description: Manage transactions. Requires authentication.
 
 paths:
 # Authentication
@@ -575,11 +569,70 @@ paths:
 
 # Notification
 
-# Payment  
+# Payment
+
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: string
+        payment_data:
+          type: object
+          properties:
+            amount:
+              type: number
+              format: float
+            payment_method:
+              type: string
+            status:
+              type: string
+        created_at:
+          type: string
+          format: date-time
+
+    Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: string
+        user_data:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+        amount:
+          type: number
+          format: float
+        payment_method:
+          type: string
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
+
+paths:
+
   /payments:
     get:
       summary: Get a list of payments
-      tags: [Payments]
       security:
         - bearerAuth: []
       responses:
@@ -602,7 +655,6 @@ paths:
                     type: string
     post:
       summary: Create a new payment
-      tags: [Payments]
       security:
         - bearerAuth: []
       requestBody:
@@ -631,7 +683,6 @@ paths:
   /payments/{id}:
     get:
       summary: Get a payment by ID
-      tags: [Payments]
       security:
         - bearerAuth: []
       parameters:
@@ -657,11 +708,11 @@ paths:
                   error:
                     type: string
 
+
 # Transaction
   /transactions:
     get:
       summary: Get a list of transactions
-      tags: [Transactions]
       security:
         - bearerAuth: []
       responses:
@@ -684,7 +735,6 @@ paths:
                     type: string
     post:
       summary: Create a new transaction
-      tags: [Transactions]
       security:
         - bearerAuth: []
       requestBody:
@@ -713,7 +763,6 @@ paths:
   /transactions/{id}:
     get:
       summary: Get a transaction by ID
-      tags: [Transactions]
       security:
         - bearerAuth: []
       parameters:
@@ -738,6 +787,7 @@ paths:
                 properties:
                   error:
                     type: string
+
 # Post
 
 components:
@@ -856,49 +906,3 @@ components:
           type: integer
         description:
           type: integer
-
-    Transaction:
-      type: object
-      properties:
-        id:
-          type: integer
-        user_id:
-          type: string
-        payment_data:
-          type: object
-          properties:
-            amount:
-              type: number
-              format: float
-            payment_method:
-              type: string
-            status:
-              type: string
-        created_at:
-          type: string
-          format: date-time
-
-    Payment:
-      type: object
-      properties:
-        id:
-          type: integer
-        user_id:
-          type: string
-        user_data:
-          type: object
-          properties:
-            name:
-              type: string
-            email:
-              type: string
-        amount:
-          type: number
-          format: float
-        payment_method:
-          type: string
-        status:
-          type: string
-        created_at:
-          type: string
-          format: date-time
