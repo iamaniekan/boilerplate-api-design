@@ -7,3 +7,21 @@ info:
   version: 1.0.0
 servers:
   - url: http://api.domain.com/v1
+
+# Authentication
+
+# Users
+
+# Organisation
+
+# User_organisation
+
+# Messages
+
+# Notification
+
+# Payment
+
+# Transaction
+
+# Post
