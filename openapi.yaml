@@ -780,38 +780,6 @@ paths:
                     type: string
 
 # Post
-
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      
-  schemas:
-      Post:
-        type: object
-        properties:
-          id:
-            type: integer
-            format: int64
-          title:
-            type: string
-          body:
-            type: string
-          image:
-            type: string
-            format: binary
-          status:
-            type: string
-          author_id:
-            type: string
-          created_at:
-            type: string
-            format: date-time
-          updated_at:
-            type: string
-            format: date-time
   paths:
     /posts:
       get:
@@ -893,3 +861,145 @@ components:
         responses:
           '204':
             description: Post deleted
+
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        unique_id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Organisation:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    
+    OrganisationCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+
+    UserOrganisation:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: object
+          properties:
+            id:
+              type: integer
+            unique_id:
+              type: string
+            first_name:
+              type: string
+            last_name:
+              type: string
+            phone:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+            role:
+              type: boolean
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+        organisation_id:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            description:
+              type: string
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+    
+    UserOrganisationCreate:
+      type: object
+      required:
+        - user_id
+        - organisation_id
+      properties:
+        name:
+          type: integer
+        description:
+          type: integer
+
+    Post:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int64
+          title:
+            type: string
+          body:
+            type: string
+          image:
+            type: string
+            format: binary
+          status:
+            type: string
+          author_id:
+            type: string
+          created_at:
+            type: string
+            format: date-time
+          updated_at:
+            type: string
+            format: date-time
