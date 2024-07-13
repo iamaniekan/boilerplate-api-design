@@ -7,9 +7,13 @@ info:
   version: 1.0.0
 servers:
   - url: http://api.domain.com/v1
-
+components:
 # Authentication
-
+securitySchemes:
+      BearerAuth:
+        type: http,
+        scheme: bearer,
+        bearerFormat: JWT
 # Users
 
 # Organisation
@@ -21,8 +25,6 @@ servers:
 # Notification
 
 # Payment
-
-components:
   schemas:
     Transaction:
       type: object
@@ -69,13 +71,6 @@ components:
         created_at:
           type: string
           format: date-time
-
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-
 security:
   - bearerAuth: []
 
@@ -240,6 +235,30 @@ paths:
                     type: string
 
 # Post
+schemas:
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        body:
+          type: string
+        image:
+          type: string
+          format: binary
+        status:
+          type: string
+        author_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
 paths:
   /posts:
     get:
