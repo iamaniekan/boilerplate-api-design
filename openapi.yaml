@@ -633,8 +633,8 @@ paths:
                   properties:
                     error:
                       type: string
-      /messages/{id}:
-        get:
+  /messages/{id}:
+    get:
           summary: Get a messages by ID
           tags: [Messages]
           security:
@@ -1250,7 +1250,7 @@ components:
 
           
     Messages:
-      type: oject
+      type: object
       properties:
         id:
           type: integer
@@ -1274,7 +1274,7 @@ components:
           format: date-time
 
     Notifications:
-      type: oject
+      type: object
       properties:
         id:
           type: integer
